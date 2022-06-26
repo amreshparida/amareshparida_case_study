@@ -319,5 +319,68 @@ class CartController extends Controller
         }
 
 
+             // viewCart method to delete cart items by requests from GET: /cart
+             public function  viewCart(Request $request)
+             {
+         
+                 //Implement try catch
+                 try {
+         
+                     //using validator for request fields validations all required except description and avatr, if avatar is null usinf public/images/deafult.png mentioned in product migration
+                     $validator = Validator::make($request->all(), [
+                         'session_id' => 'required'                
+                     ]);
+         
+                     if ($validator->fails()) {
+                         // If validation fails - get the type of validation failed 
+                         $error = $validator->errors()->all()[0];
+                         return response()->json([
+                             'success' => false,
+                             'message' => $error,
+                             'error_code' => 422
+                         ], 422);
+                     } else {
+         
+         
+                         $cart_data =  Cart::where(["session_id" => $request->session_id])->get();
+                         if (auth('api')->user()) {
+                            $cart_data =  Cart::where(["session_id" => $request->session_id, "user_id"=> auth('api')->user()->id])->get();
+                         }
+         
+                             //Now update if access token is present to map session id
+                             $cart = new Cart;
+                             if (auth('api')->user()) {
+         
+                                 $cart->where('session_id', $request->session_id)
+                                     ->update([
+                                         'user_id' => auth('api')->user()->id
+                                     ]);
+                             }
+         
+                             return response()->json([
+                                 'success' => true,
+                                 'message' => 'Cart Data',
+                                 'data' => [
+                                    'data' =>  $cart_data
+                                 ]
+                             ], 200);
+                       
+                         
+                        
+                     }
+                 } catch (\Exception $e) {
+                     //catching exception and returning response
+                     return response()->json(
+                         [
+                             'success' => false,
+                             'message' => $e->getMessage(),
+                             'error_code' => 500
+                         ],
+                         500
+                     );
+                 }
+             }   
+
+
 
 }

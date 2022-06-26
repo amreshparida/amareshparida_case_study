@@ -34,6 +34,8 @@ Route::post('cart',  [CartController::class, 'addToCart'] );
 Route::put('cart/{id}',  [CartController::class, 'updateCart'] );
 //delete cart item by product id
 Route::delete('cart/{id}',  [CartController::class, 'deleteCart'] );
+//list all cart items
+Route::get('cart',  [CartController::class, 'viewCart'] );
 
 
 //Auth token based access
