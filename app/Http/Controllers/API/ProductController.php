@@ -223,7 +223,47 @@ public function getProduct($id){
 
 }
    
+// delProduct method to delete product details
+public function delProduct($id){
 
+    //Implement try catch
+    try{
+
+        //fetching product details by product id which this method get as parameter from route get request
+        $product =  Product::find($id);
+        if(is_null( $product))
+        {
+           //product details in response if null means not found
+            return response()->json([
+             'success' => false,
+             'error_code' => 404,
+             'message' => 'Product not found'
+             ],404);
+             }
+        else{
+                //product deleting using softdelete
+                $product->delete();
+                return response()->json([
+                 'success' => true,
+                 'message' => 'Products deleted successfully',
+                
+                 ],200);
+        }
+       
+
+
+   } catch (\Exception $e){
+       //catching exception and returning response
+       return response()->json(
+           [
+               'success' => false,
+               'message' => $e->getMessage(),
+               'error_code' => 500
+           ], 500
+       );
+   }
+
+}
 
 
 }

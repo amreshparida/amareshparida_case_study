@@ -21,14 +21,20 @@ Route::post('auth/login',  [AuthController::class, 'login']);
 
 
 //Get products no auth required
+//list all products route
 Route::get('products',  [ProductController::class, 'list'] );
+//get product details by id
 Route::get('products/{id}',  [ProductController::class, 'getProduct'] );
+
+
 
 
 //Auth token based access
 Route::middleware('auth:api')->group(function(){
 //API POST: /products route - class ProductController store method to create a product
   Route::post('products',  [ProductController::class, 'store'] );
+//delete product by id with user is authorized with token
+  Route::delete('products/{id}',  [ProductController::class, 'delProduct'] );
 });
 
 
