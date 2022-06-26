@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\CartController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,12 @@ Route::get('products',  [ProductController::class, 'list'] );
 //get product details by id
 Route::get('products/{id}',  [ProductController::class, 'getProduct'] );
 
-
+//API POST: /cart route - class CartController  addToCart method to add product to cart
+Route::post('cart',  [CartController::class, 'addToCart'] );
+//update cart item by product id
+Route::put('cart/{id}',  [CartController::class, 'updateCart'] );
+//delete cart item by product id
+Route::delete('cart/{id}',  [CartController::class, 'deleteCart'] );
 
 
 //Auth token based access
