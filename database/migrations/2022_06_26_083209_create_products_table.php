@@ -30,6 +30,7 @@ return new class extends Migration
             $table->boolean('status')->default(1);
             //created and updated at timestamps
             $table->timestamps();
+
         });
     }
 

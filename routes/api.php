@@ -20,6 +20,10 @@ use App\Http\Controllers\API\ProductController;
 Route::post('auth/login',  [AuthController::class, 'login']);
 
 
+//Get products no auth required
+Route::get('products',  [ProductController::class, 'list'] );
+
+
 //Auth token based access
 Route::middleware('auth:api')->group(function(){
 //API POST: /products route - class ProductController store method to create a product

@@ -11,4 +11,10 @@ class Product extends Model
     // This is product model using products table
     protected $table = "products";
     protected $primaryKey = "id";
+
+    public function category()
+    {
+        return $this->hasOne('App\Models\Category', 'id');
+    }
+
 }

@@ -48,7 +48,7 @@ class AuthController extends Controller
                          'data' =>   [
                                          'token' => $token
                                      ]
-                         ],);
+                         ],200);
                 }
                 else{
                  // return log in failled JSON response

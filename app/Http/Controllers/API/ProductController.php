@@ -78,7 +78,7 @@ class ProductController extends Controller
                     'data' =>   [
                                     'id' => $product->id
                                 ]
-                    ],);
+                    ],200);
                }
                else{
                 //product insertion failed
@@ -106,4 +106,80 @@ class ProductController extends Controller
         }
 
     }
+
+// list method to fetch product list with pagination feature
+    public function list(Request $request){
+
+        //Implement try catch
+        try{
+
+           //using validator for request fields validations 
+           $validator = Validator::make($request->all(),[
+               'perPage' => 'nullable|integer',
+               'page' => 'nullable|integer'
+           ]);
+
+           if($validator->fails()){
+               // If validation fails - get the type of validation failed 
+               $error = $validator->errors()->all()[0];
+               return response()->json([
+                   'success' => false,
+                   'message' => $error,
+                   'error_code' => 422
+               ],422);
+
+           }else{
+
+               //product object
+              $product = new Product;
+
+              if($request->perPage)
+              {
+                //if perPage is present in GET request 
+                $perPage = $request->perPage;
+              }
+              else
+              {
+                //if perPage is not present in GET request
+                $perPage = 5;
+              }
+
+              $product_list = $product->with(['category'])->paginate($perPage);
+             
+           
+              
+             
+                   //product fetched successfully now returning success response with products data
+                   return response()->json([
+                   'success' => true,
+                   'message' => 'Products list',
+                   'data' =>   [
+                                   'data' => $product_list
+                               ]
+                   ],200);
+             
+          
+              
+             
+
+
+
+           }
+
+
+       } catch (\Exception $e){
+           //catching exception and returning response
+           return response()->json(
+               [
+                   'success' => false,
+                   'message' => $e->getMessage(),
+                   'error_code' => 500
+               ], 500
+           );
+       }
+
+   }
+
+
+
 }
