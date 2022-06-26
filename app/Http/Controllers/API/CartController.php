@@ -41,6 +41,16 @@ class CartController extends Controller
                 ], 422);
             } else {
 
+                $product =  Product::find($request->product_id);
+                if (is_null( $product)) {
+                     //product details in response if null means not found
+            return response()->json([
+                'success' => false,
+                'error_code' => 404,
+                'message' => 'Product not found'
+                ],404);
+                }
+
                 $cart =  Cart::where(["session_id" => $request->session_id, "product_id" => $request->product_id])->first();
                 if (is_null($cart)) {
 
@@ -51,6 +61,9 @@ class CartController extends Controller
                     $cart->session_id = $request->session_id;
                     $session_id = $cart->session_id;
                     $cart->product_id = $request->product_id;
+
+
+
                     $cart->qty = $request->qty;
 
                     if (auth('api')->user()) {
