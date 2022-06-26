@@ -67,7 +67,7 @@ class AuthController extends Controller
                 [
                     'success' => false,
                     'message' => $e->getMessage(),
-                    'error_code' => 400
+                    'error_code' => 500
                 ], 500
             );
         }

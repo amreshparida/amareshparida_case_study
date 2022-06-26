@@ -18,4 +18,14 @@ class Authenticate extends Middleware
             return route('login');
         }
     }
+
+    // returns aunauthenticated response if Bearer token is not present
+    protected function unauthenticated($request, array $guards)
+    {
+        abort(response()->json(
+            [
+                'status' => '401',
+                'message' => 'Unauthenticated',
+            ], 401));
+    }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,15 @@ use App\Http\Controllers\API\AuthController;
 |
 */
 
-// API auth/login route calss AuthController login method
+// API POST: auth/login route - calss AuthController login method to validate login credentials
 Route::post('auth/login',  [AuthController::class, 'login']);
 
+
+//Auth token based access
+Route::middleware('auth:api')->group(function(){
+//API POST: /products route - class ProductController store method to create a product
+  Route::post('products',  [ProductController::class, 'store'] );
+});
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
