@@ -30,7 +30,7 @@ Expected functionalities are as follows:
 
 ## API Documentation
 
- Please visit the [Postman documentation](https://github.com/amreshparida/amareshparida_case_study).
+ Please visit the [Postman documentation](https://documenter.getpostman.com/view/16177425/UzBsHPsg).
 
 # Installation
 
