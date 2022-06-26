@@ -22,6 +22,7 @@ Route::post('auth/login',  [AuthController::class, 'login']);
 
 //Get products no auth required
 Route::get('products',  [ProductController::class, 'list'] );
+Route::get('products/{id}',  [ProductController::class, 'getProduct'] );
 
 
 //Auth token based access

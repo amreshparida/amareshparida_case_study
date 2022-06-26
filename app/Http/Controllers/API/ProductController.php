@@ -180,6 +180,50 @@ class ProductController extends Controller
 
    }
 
+// getProduct to fetch product details
+public function getProduct($id){
+
+    //Implement try catch
+    try{
+
+        //fetching product details  with category details by product id which this method get as parameter from route get request
+        $product =  Product::with(['category'])->find($id);
+        if(is_null( $product))
+        {
+           //product details in response if null means not found
+            return response()->json([
+             'success' => false,
+             'error_code' => 404,
+             'message' => 'Product not found'
+             ],404);
+             }
+        else{
+                //product details in response if found
+                return response()->json([
+                 'success' => true,
+                 'message' => 'Products detail',
+                 'data' =>   [
+                                 'data' =>  $product
+                             ]
+                 ],200);
+        }
+       
+
+
+   } catch (\Exception $e){
+       //catching exception and returning response
+       return response()->json(
+           [
+               'success' => false,
+               'message' => $e->getMessage(),
+               'error_code' => 500
+           ], 500
+       );
+   }
+
+}
+   
+
 
 
 }
